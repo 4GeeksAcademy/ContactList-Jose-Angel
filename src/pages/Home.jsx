@@ -6,11 +6,20 @@ export const Home = () => {
   const {store, dispatch} =useGlobalReducer()
 
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
+		<div className="contact-list">
+			<ul className="container-list" style={{listStyleType: "none"}}>
+				{store && store.contacts?.map((item)=> {
+					return (
+				<li className="contenido-li">
+					<p className="Name">{item.userName}</p>
+					<p>{item.phone}</p>
+					<p>{item.email}</p>
+					<p>{item.address}</p>
+				</li>
+					);
+				})}
+				
+			</ul>
 		</div>
 	);
 }; 
