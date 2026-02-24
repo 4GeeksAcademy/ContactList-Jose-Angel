@@ -18,18 +18,17 @@ export const Demo = () => {
       inputValueName.trim() &&
       inputValuePhone.trim() &&
       inputValueEmail.trim() &&
-      inputValueAddress.trim())
-    {
-      dispatch({ 
-        type: "ADD_CONTACT", 
+      inputValueAddress.trim()) {
+      dispatch({
+        type: "ADD_CONTACT",
         payload: {
           userName: inputValueName,
           phone: inputValuePhone,
           email: inputValueEmail,
           address: inputValueAddress
-        } 
+        }
       });
-      
+
       setInputValueName('');
       setInputValuePhone('')
       setInputValueEmail('')
@@ -42,45 +41,45 @@ export const Demo = () => {
 
 
   return (
+    
     <div className="container-inputs">
-      <form  onSubmit={handleAddTodo} className="form-container">
-              <input type="text"
-                placeholder="Nombre"
-                className="input"
-                value={inputValueName}
-                onChange={(e) => setInputValueName(e.target.value)}
-              />
-              <input type="tel"
-                placeholder="Phone"
-                className="input"
-                value={inputValuePhone}
-                //oninput={this.value = this.value.replace(/[^0-9]/g, '')}
-                onChange={(e) => setInputValuePhone(e.target.value)}
-              />
-              <input type="email"
-                placeholder="Email"
-                className="input"
-                value={inputValueEmail}
-                onChange={(e) => setInputValueEmail(e.target.value)}
-              />
-              <input type="text"
-                placeholder="Address"
-                className="input"
-                value={inputValueAddress}
-                onChange={(e) => setInputValueAddress(e.target.value)}
-              />
-              <button type="submit">Añadir contacto</button>
-            </form>
+      <form onSubmit={handleAddTodo} className="form-container">
+        <input type="text"
+          placeholder="Nombre"
+          className="input"
+          value={inputValueName}
+          onChange={(e) => setInputValueName(e.target.value)}
+        />
+        <input type="tel"
+          placeholder="Phone"
+          className="input"
+          value={inputValuePhone}
+          //oninput={this.value = this.value.replace(/[^0-9]/g, '')}
+          onChange={(e) => setInputValuePhone(e.target.value)}
+        />
+        <input type="email"
+          placeholder="Email"
+          className="input"
+          value={inputValueEmail}
+          onChange={(e) => setInputValueEmail(e.target.value)}
+        />
+        <input type="text"
+          placeholder="Address"
+          className="input"
+          value={inputValueAddress}
+          onChange={(e) => setInputValueAddress(e.target.value)}
+        />
+        <button type="submit" className="submit">Añadir contacto</button>
+      </form>
       {/* Map over the 'todos' array from the store and render each item as a list element */}
+      <Link to="/">
+        <button>Back home</button>
+      </Link>
       {store && store.contacts?.map((item) => {
         return (
-          <div key={item.id} className="contact-card">
-            </div>
+          <div key={item.id} className="contact-card"></div>
         );
       })}
-      <Link to="/">
-        <button className="btn btn-primary">Back home</button>
-      </Link>
     </div>
   );
 };

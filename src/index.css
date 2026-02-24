@@ -40,7 +40,6 @@ nav {
   flex-direction: column;
   gap: 15px;
   max-width: 400px;
-  margin: 20px auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -49,22 +48,45 @@ nav {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 16px;
-  color: #333;
-  background-color: #fff;
+  color: #e2e2e2;
+  background-color: #242424;
   transition: all 0.3s ease; 
   outline: none;
 }
 
 .input::placeholder {
-  color: #aaa;
+  color: #dddada;
   font-weight: 300;
 }
 
 .input:focus {
-  border-color: #4A90E2;
+  border-color: lightgoldenrodyellow ;
   box-shadow: 0 0 8px rgba(74, 144, 226, 0.2);
 }
 
 .input:hover {
-  border-color: #ccc;
+  border-color: #8f8f8f;
+}
+button {
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+  width: 215px;
+  background-color: #1976d2;
+  color: #e3f2fd;
+}
+button:hover {
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 12px rgba(54, 54, 54, 0.993);
+  filter: brightness(0.95); 
+}
+
+button:active {
+  transform: translateY(0);
 }
