@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";  // Custom hook for accessing the global state.
+import { ACTION_TYPES } from "../store";
 
 export const Demo = () => {
   // Access the global state and dispatch function using the useGlobalReducer hook.
@@ -12,27 +13,31 @@ export const Demo = () => {
   const [inputValueEmail, setInputValueEmail] = useState('');
   const [inputValueAddress, setInputValueAddress] = useState('');
 
-  const handleAddTodo = (e) => {
+  const handleAddTodo = async (e) => {
     e.preventDefault();
     if (
       inputValueName.trim() &&
       inputValuePhone.trim() &&
       inputValueEmail.trim() &&
       inputValueAddress.trim()) {
-      dispatch({
-        type: "ADD_CONTACT",
-        payload: {
-          userName: inputValueName,
-          phone: inputValuePhone,
-          email: inputValueEmail,
-          address: inputValueAddress
-        }
-      });
+      try {
+        await dispatch({
+          type: ACTION_TYPES.ADD_CONTACT,
+          payload: {
+            userName: inputValueName,
+            phone: inputValuePhone,
+            email: inputValueEmail,
+            address: inputValueAddress
+          }
+        })
 
-      setInputValueName('');
-      setInputValuePhone('')
-      setInputValueEmail('')
-      setInputValueAddress('')
+        setInputValueName('');
+        setInputValuePhone('')
+        setInputValueEmail('')
+        setInputValueAddress('')
+      } catch (error) {
+        alert(error.message || "No se pudo crear el contacto")
+      }
     }
     else {
       return alert("Tienes que llenar todos los campos")
