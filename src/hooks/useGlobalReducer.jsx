@@ -1,5 +1,5 @@
 // Import necessary hooks and functions from React.
-import { useContext, useState, createContext } from "react";
+import { useContext, useReducer, createContext } from "react";
 import storeReducer, { initialStore } from "../store"  // Import the reducer and the initial state.
 
 // Create a context to hold the global state of the application
@@ -9,13 +9,8 @@ const StoreContext = createContext()
 // Define a provider component that encapsulates the store and warps it in a context provider to 
 // broadcast the information throught all the app pages and components.
 export function StoreProvider({ children }) {
-    const [store, setStore] = useState(initialStore())
-
-    const dispatch = async (action) => {
-        const nextStore = await storeReducer(store, action)
-        setStore(nextStore)
-        return nextStore
-    }
+    // Initialize reducer with the initial state.
+    const [store, dispatch] = useReducer(storeReducer, initialStore())
     // Provide the store and dispatch method to all child components.
     return <StoreContext.Provider value={{ store, dispatch }}>
         {children}

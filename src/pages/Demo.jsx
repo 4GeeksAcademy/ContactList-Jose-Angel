@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";  // Custom hook for accessing the global state.
-import { ACTION_TYPES } from "../store";
+import { ACTION_TYPES, addContactAction } from "../store";
 
 export const Demo = () => {
   // Access the global state and dispatch function using the useGlobalReducer hook.
@@ -21,15 +21,18 @@ export const Demo = () => {
       inputValueEmail.trim() &&
       inputValueAddress.trim()) {
       try {
-        await dispatch({
-          type: ACTION_TYPES.ADD_CONTACT,
-          payload: {
-            userName: inputValueName,
-            phone: inputValuePhone,
-            email: inputValueEmail,
-            address: inputValueAddress
-          }
+        const savedContact = await addContactAction({
+          userName: inputValueName,
+          phone: inputValuePhone,
+          email: inputValueEmail,
+          address: inputValueAddress
         })
+
+        dispatch({
+          type: ACTION_TYPES.ADD_CONTACT,
+          payload: savedContact
+        })
+        dispatch({ type: ACTION_TYPES.SET_MESSAGE, payload: "Contacto creado correctamente" })
 
         setInputValueName('');
         setInputValuePhone('')

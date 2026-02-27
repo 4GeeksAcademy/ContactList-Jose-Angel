@@ -61,7 +61,7 @@ const isAgendaMissingError = (response, payload) => {
   return response.status === 404 || /agenda|not found|does not exist/i.test(String(detail))
 }
 
-const addContactAction = async ({ userName, phone, email, address }) => {
+export const addContactAction = async ({ userName, phone, email, address }) => {
   let { response, payload } = await createContactRequest({ userName, phone, email, address })
 
   if (!response.ok && isAgendaMissingError(response, payload)) {
@@ -85,21 +85,18 @@ const addContactAction = async ({ userName, phone, email, address }) => {
   }
 }
 
-export default async function storeReducer(store, action = {}) {
+export default function storeReducer(store, action = {}) {
   switch (action.type) {
-    case ACTION_TYPES.ADD_CONTACT: {
-      const savedContact = await addContactAction(action.payload)
+    case ACTION_TYPES.ADD_CONTACT:
       return {
         ...store,
         contacts: [
           ...store.contacts,
           {
-            ...savedContact,
+            ...action.payload,
           },
         ],
-        message: "Contacto creado correctamente",
       }
-    }
 
     case ACTION_TYPES.SET_MESSAGE:
       return {
