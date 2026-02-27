@@ -52,6 +52,36 @@ const MyComponentSuper = () => {
 }
 ```
 
+### Flujo recomendado para API + useReducer (Beginner)
+
+Cuando trabajes con llamadas a API (`fetch`), la regla práctica es:
+
+- El `reducer` **solo** calcula el nuevo estado.
+- Las llamadas `fetch` van en una función aparte (por ejemplo, en `store.jsx` como `addContactAction`).
+- El componente hace `await` a esa función y luego ejecuta `dispatch` con el resultado.
+
+Diagrama rápido:
+
+```text
+Formulario (Demo.jsx)
+  -> await addContactAction(data)
+  -> dispatch({ type: "ADD_CONTACT", payload: savedContact })
+  -> storeReducer(actualiza estado local)
+```
+
+Ejemplo corto:
+
+```jsx
+// 1) Acción async (API)
+const savedContact = await addContactAction(formData);
+
+// 2) Reducer sync (estado)
+dispatch({ type: ACTION_TYPES.ADD_CONTACT, payload: savedContact });
+```
+
+¿Por qué así? Porque `useReducer` espera un reducer síncrono y predecible.
+Si pones `await fetch(...)` dentro del reducer, el flujo se vuelve más difícil de mantener y depurar.
+
 ## ¡Publica tu sitio web!
 
 1. **Vercel:** El proveedor de alojamiento GRATUITO recomendado es [vercel.com](https://vercel.com/), puedes desplegar en 1 minuto escribiendo los siguientes 2 comandos:

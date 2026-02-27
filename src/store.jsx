@@ -19,10 +19,6 @@ export const ACTION_TYPES = {
   SET_MESSAGE: "SET_MESSAGE",
 }
 
-const readResponsePayload = async (response) => {
-  return await response.json().catch(() => null)
-}
-
 const createAgenda = async () => {
   const response = await fetch(`${AGENDA_OPERATIONS}${SLUG}`, {
     method: "POST",
@@ -31,8 +27,16 @@ const createAgenda = async () => {
 
   if (response.ok) return
 
-  const payload = await readResponsePayload(response)
+  let payload = null
+  try {
+    payload = await response.json()
+  } catch {
+    payload = null
+  }
+
   const detail = payload?.detail || payload?.msg || ""
+  // Si el servidor responde 400 y el mensaje indica "already exists",
+  // significa que la agenda ya estaba creada y podemos continuar sin error.
   const alreadyExists = response.status === 400 && /exists|already/i.test(detail)
 
   if (!alreadyExists) {
@@ -52,12 +56,20 @@ const createContactRequest = async ({ userName, phone, email, address }) => {
     }),
   })
 
-  const payload = await readResponsePayload(response)
+  let payload = null
+  try {
+    payload = await response.json()
+  } catch {
+    payload = null
+  }
+
   return { response, payload }
 }
 
 const isAgendaMissingError = (response, payload) => {
   const detail = payload?.detail || payload?.msg || ""
+  // Aquí usamos .test(...) para buscar palabras clave en el mensaje de error.
+  // Si encuentra "agenda", "not found" o "does not exist", asumimos que la agenda no existe.
   return response.status === 404 || /agenda|not found|does not exist/i.test(String(detail))
 }
 
