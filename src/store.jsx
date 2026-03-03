@@ -13,15 +13,13 @@ export const initialStore = () => {
     ],
   }
 }
-const SLUG = 'leo'
+const SLUG = 'Jose'
 const AGENDA_OPERATIONS = 'https://playground.4geeks.com/contact/agendas/'
-const CONTACTS_OPERATIONS = `https://playground.4geeks.com/agendas/${SLUG}/contacts`
+const CONTACTS_OPERATIONS = `https://playground.4geeks.com/contact/agendas/${SLUG}/contacts`
 export default async function storeReducer(store, action = {}) {
   switch (action.type) {
 
     case "ADD_CONTACT":
-      console.log(store.payload);
-
       try {
         const createSlug = async () => {
           const res = await fetch(`${AGENDA_OPERATIONS}${SLUG}`,
@@ -31,17 +29,21 @@ export default async function storeReducer(store, action = {}) {
           )
           return await res.json()
         }
-        //await createSlug()
+        await createSlug()
+
+        console.log(action.payload)
+
         const createContact = async () => {
           const response = await fetch(`${CONTACTS_OPERATIONS}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: store.contacts
+            body: action.payload
           })
           return await response.json()
         }
-        //await createContact()
+        await createContact()
+
         return {
           ...store,
           contacts: [
