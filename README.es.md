@@ -35,9 +35,9 @@ El archivo `./src/store.js` tiene una estructura predeterminada para el store, t
 
 💡Nota: Hay un ejemplo usando el store y dispatcher de useReducer en el archivo `pages/demo.js`;
 
-+ Entiende [como funciona el `useReducer`](https://4geeks.com/es/lesson/que-es-usereducer-react)
-+ Lee más sobre [implementar un estado global con API de Contexto](https://4geeks.com/es/lesson/context-api-es)
-+ Lee más sobre [hooks de react](https://4geeks.com/es/lesson/react-hooks-explained-es)
+- Entiende [como funciona el `useReducer`](https://4geeks.com/es/lesson/que-es-usereducer-react)
+- Lee más sobre [implementar un estado global con API de Contexto](https://4geeks.com/es/lesson/context-api-es)
+- Lee más sobre [hooks de react](https://4geeks.com/es/lesson/react-hooks-explained-es)
 
 El `Proveedor` del store para este contexto ya está configurado en `./src/main.jsx`. Puedes acceder al store desde cualquier componente usando el hook `useGlobalReducer` para obtener el `store` y el `despachador`. Consulta `/views/demo.js` para ver una demostración. Aquí tienes un ejemplo más pequeño:
 
@@ -52,18 +52,52 @@ const MyComponentSuper = () => {
 }
 ```
 
+### Flujo recomendado para API + useReducer (Beginner)
+
+Cuando trabajes con llamadas a API (`fetch`), la regla práctica es:
+
+- El `reducer` **solo** calcula el nuevo estado.
+- Las llamadas `fetch` van en una función aparte (por ejemplo, en `store.jsx` como `addContactAction`).
+- El componente hace `await` a esa función y luego ejecuta `dispatch` con el resultado.
+
+Diagrama rápido:
+
+```text
+Formulario (Demo.jsx)
+  -> await addContactAction(data)
+  -> dispatch({ type: "ADD_CONTACT", payload: savedContact })
+  -> storeReducer(actualiza estado local)
+```
+
+Ejemplo corto:
+
+```jsx
+// 1) Acción async (API)
+const savedContact = await addContactAction(formData);
+
+// 2) Reducer sync (estado)
+dispatch({ type: ACTION_TYPES.ADD_CONTACT, payload: savedContact });
+```
+
+¿Por qué así? Porque `useReducer` espera un reducer síncrono y predecible.
+Si pones `await fetch(...)` dentro del reducer, el flujo se vuelve más difícil de mantener y depurar.
+
 ## ¡Publica tu sitio web!
 
 1. **Vercel:** El proveedor de alojamiento GRATUITO recomendado es [vercel.com](https://vercel.com/), puedes desplegar en 1 minuto escribiendo los siguientes 2 comandos:
 
 Iniciar sesión (necesitas tener una cuenta):
+
 ```sh
 $ npm i vercel -g && vercel login
 ```
+
 Desplegar:
+
 ```sh
 $ vercel --prod
 ```
+
 ✎ Nota: Si no tienes una cuenta, simplemente ve a vercel.com, crea una cuenta y regresa aquí.
 
 ![Procedimiento de ejemplo de Vercel para desplegar](https://github.com/4GeeksAcademy/react-hello-webapp/blob/4b530ba091a981d3916cc6e960e370decaf2e234/docs/deploy.png?raw=true)
