@@ -79,13 +79,15 @@ export const Demo = () => {
         />
         <button type="submit" className="submit">Añadir contacto</button>
       </form>
-      {/* Map over the 'todos' array from the store and render each item as a list element */}
+
       <Link to="/">
         <button>Back home</button>
       </Link>
       {store && store.contacts?.map((item) => {
         return (
-          <div key={item.id} className="contact-card"></div>
+          <div key={item.id} className="contact-card">
+            
+          </div>
         );
       })}
     </div>
