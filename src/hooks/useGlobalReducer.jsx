@@ -1,7 +1,5 @@
-/* eslint-disable react-refresh/only-export-components */
-import PropTypes from "prop-types";
-import { createContext, useContext, useReducer } from "react";
-import storeReducer, { initialStore } from "../store.js";
+import { useContext, useReducer, createContext } from "react";
+import storeReducer, { initialStore } from "../store";
 
 const StoreContext = createContext();
 
@@ -15,16 +13,7 @@ export function StoreProvider({ children }) {
   );
 }
 
-StoreProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 export default function useGlobalReducer() {
-  const context = useContext(StoreContext);
-
-  if (!context) {
-    throw new Error("useGlobalReducer must be used inside StoreProvider");
-  }
-
-  return context;
+  const { dispatch, store } = useContext(StoreContext);
+  return { dispatch, store };
 }

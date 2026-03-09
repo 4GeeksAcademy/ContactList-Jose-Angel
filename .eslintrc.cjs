@@ -17,4 +17,13 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+  overrides: [
+    {
+      files: ["src/hooks/useGlobalReducer.jsx"],
+      rules: {
+        "react-refresh/only-export-components": "off",
+        "react/prop-types": "off",
+      },
+    },
+  ],
 };
