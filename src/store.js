@@ -154,7 +154,7 @@ export const createContactInApi = async (contactData) => {
 };
 
 export const updateContactInApi = async (contactId, contactData) => {
-  const response = await fetch(`${API_BASE_URL}/contacts/${contactId}`, {
+  const response = await fetch(`${getAgendaContactsEndpoint()}/${contactId}`, {
     method: "PUT",
     headers: JSON_HEADERS,
     body: JSON.stringify(buildContactPayload(contactData)),
